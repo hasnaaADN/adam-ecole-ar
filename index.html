@@ -1,0 +1,161 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>آدم في المدرسة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef6ff;--card:#fff;--ink:#14284b;--mut:#4d6288;--main:#2563eb;--sun:#ffc83d;--ok:#16a34a;--bad:#dc2626;--line:#c9dcf7;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a33;--card:#17274a;--ink:#eaf1ff;--mut:#a9bbdd;--main:#6aa0ff;--line:#2b4070;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1a33;--card:#17274a;--ink:#eaf1ff;--mut:#a9bbdd;--main:#6aa0ff;--line:#2b4070;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Cairo","Segoe UI",Tahoma,sans-serif;font-size:20px;line-height:1.9}
+#cours-adam{box-sizing:border-box;width:min(100vw,1000px);margin-inline-start:calc(50% - min(100vw,1000px)/2);padding:16px 16px 48px;background:var(--bg);color:var(--ink);font-family:"Cairo","Segoe UI",Tahoma,sans-serif;font-size:20px;line-height:1.9}
+h1{font-size:2.2rem;font-weight:900;margin:8px 0 0}
+h2{font-size:1.4rem;font-weight:900;margin:36px 0 12px}
+.sub{color:var(--mut);font-size:1rem;margin:0}
+.sec{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px}
+.sec.story{border-inline-start:10px solid var(--sun)}
+.s{display:inline;cursor:pointer;border-radius:8px;padding:2px 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.s:hover,.s.on{background:var(--sun);color:#14284b}
+button{font:inherit;cursor:pointer;color:inherit}
+.btn{background:var(--main);color:#fff;border:0;border-radius:14px;padding:6px 18px;font-weight:700}
+.btn:focus-visible,.q button:focus-visible,.card:focus-visible,.s:focus-visible,.opt:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.q{border-bottom:1px dashed var(--line);padding:6px 0}
+.q:last-child{border:0}
+.qh{display:flex;align-items:center;gap:8px}.qb{background:none;border:0;flex:1;text-align:start;font-weight:700;padding:4px 0}
+.q .a{display:none;color:var(--ok);font-weight:900;padding-bottom:4px}
+.q.open .a{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+#story{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:14px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px 4px;text-align:center;font-weight:700}
+.card .e{font-size:2.4rem;display:block;line-height:1.3}
+.card:active{background:var(--sun);color:#14284b}
+.model{font-size:1.6rem;font-weight:900;text-align:center;margin:0}
+.model span{display:block;cursor:pointer}
+.game .big{font-size:4rem;text-align:center;line-height:1.3}
+.opts{display:grid;gap:10px}
+.opt{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:6px;font-weight:700}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.bad{background:var(--bad);color:#fff;border-color:var(--bad)}
+.score{text-align:center;color:var(--mut);font-size:1rem}
+.scene{margin:0;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--card)}
+.scene svg{display:block;width:100%;height:auto}
+.scene.on{border-color:var(--sun);box-shadow:0 0 0 3px var(--sun)}
+.cap{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 12px;font-weight:700}
+.spk{background:var(--sun);color:#14284b;border:0;border-radius:50%;width:40px;height:40px;font-size:1.1rem;flex:none;line-height:1;padding:0}
+.spk:focus-visible{outline:3px solid var(--main);outline-offset:2px}
+.card .spk{width:34px;height:34px;margin:4px 3px 0}
+.hd{display:flex;align-items:center;gap:10px;margin:36px 0 4px}
+.hd h2{margin:0;flex:1}
+.hd+.sub{margin-bottom:10px}
+.a .spk{width:32px;height:32px;margin-inline-start:6px;vertical-align:middle}
+</style>
+
+
+<main>
+<div id="cours-adam" dir="rtl" lang="ar">
+<h1>آدم في المدرسة 🏫</h1>
+<p class="sub">اضغط على 🔊 لتسمع كل جملة وكل كلمة وكل تعليمة.</p>
+<button class="btn" id="speed" style="margin-top:8px">🔊 السرعة: عادية</button>
+
+<div class="hd"><h2>1. أقرأ الحكاية</h2><button class="spk" data-say="استمع ثم اقرأ الحكاية." aria-label="استمع إلى التعليمة">🔊</button></div><p class="sub">استمع ثم اقرأ الحكاية.</p>
+<div class="sec story">
+<div id="story"></div>
+<button class="btn" id="readAll">🔊 استمع إلى الحكاية</button>
+</div>
+
+<div class="hd"><h2>2. أفهم الحكاية</h2><button class="spk" data-say="أجيب شفهياً عن الأسئلة." aria-label="استمع إلى التعليمة">🔊</button></div><p class="sub">أجيب شفهياً عن الأسئلة.</p>
+<div class="sec" id="qs"></div>
+
+<div class="hd"><h2>3. الدرس: كلمات جديدة</h2><button class="spk" data-say="أستمع إلى الكلمات ثم أكررها." aria-label="استمع إلى التعليمة">🔊</button></div><p class="sub">أستمع إلى الكلمات ثم أكررها.</p>
+<div class="grid" id="words"></div>
+
+<div class="hd"><h2>جملة نموذجية</h2><button class="spk" data-say="أقرأ الجملة بصوت عال." aria-label="استمع إلى التعليمة">🔊</button></div><p class="sub">أقرأ الجملة بصوت عال.</p>
+<div class="sec"><p class="model" id="model"></p></div>
+
+<div class="hd"><h2>لعبة: ما هذه الكلمة؟</h2><button class="spk" data-say="أنظر إلى الصورة ثم أختار الكلمة المناسبة." aria-label="استمع إلى التعليمة">🔊</button></div><p class="sub">أنظر إلى الصورة ثم أختار الكلمة المناسبة.</p>
+<div class="sec game">
+<div class="big" id="pic"></div>
+<div class="opts" id="opts"></div>
+<p class="score" id="score">النتيجة: 0 / 0</p>
+</div>
+</div></main>
+
+<script>
+const STORY=["آدم تلميذ صغير.","ذهب آدم إلى المدرسة مع أمه.","دخل القسم وقال: السلام عليكم.","ابتسمت المعلمة وقالت: مرحباً يا آدم.","جلس آدم في مكانه، وفتح محفظته.","كان سعيداً لأنه سيتعلم ويلعب مع أصدقائه."];
+const QS=[["من ذهب إلى المدرسة؟","ذهب آدم إلى المدرسة."],["مع من ذهب آدم؟","ذهب آدم مع أمه."],["ماذا قال آدم؟","قال آدم: السلام عليكم."],["من استقبل آدم؟","استقبلته المعلمة."],["هل كان آدم سعيداً؟","نعم، كان آدم سعيداً."]];
+const WORDS=[["المدرسة","🏫"],["القسم","🪑"],["المعلمة","👩‍🏫"],["التلميذ","🧑‍🎓"],["الصديق","🧒"],["المحفظة","🎒"],["الكتاب","📖"],["القلم","✏️"]];
+const MODEL=["أنا تلميذ.","أنا في المدرسة."];
+
+let RATE=.8,SEQ=0;
+function speak(t,cb,r){
+  try{
+    if(!cb){SEQ++;mark(-1);}
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(t);u.lang="ar-SA";u.rate=r||RATE;
+    if(cb){u.onend=cb;u.onerror=cb;}
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+const $=id=>document.getElementById(id);
+
+// Story
+const K=(x,y,c,o={})=>`<g transform="translate(${x} ${y}) scale(${o.s||1})">${o.bag?`<rect x="-17" y="2" width="9" height="20" rx="4" fill="#f59e0b"/>`:""}${o.sc?`<path d="M-13 -4a13 13 0 0 1 26 0v14h-26z" fill="${o.sc}"/>`:""}<rect x="-9" y="2" width="18" height="26" rx="8" fill="${c}"/><circle cy="-6" r="10" fill="#f6c9a0"/>${o.sc?"":'<path d="M-10 -7a10 10 0 0 1 20 0z" fill="#3b2a20"/>'}<circle cx="-3.5" cy="-5" r="1.3" fill="#222"/><circle cx="3.5" cy="-5" r="1.3" fill="#222"/><path d="M-4 -1q4 4 8 0" stroke="#222" fill="none" stroke-width="1.3"/><rect x="-7" y="28" width="5" height="9" fill="#14284b"/><rect x="2" y="28" width="5" height="9" fill="#14284b"/></g>`;
+const BG='<rect width="200" height="120" fill="#cfe8ff"/><circle cx="175" cy="20" r="12" fill="#ffd34d"/><rect y="85" width="200" height="35" fill="#8fd16b"/>';
+const IN='<rect width="200" height="120" fill="#fde9a8"/><rect y="85" width="200" height="35" fill="#d6a76b"/>';
+const TR=x=>`<rect x="${x}" y="62" width="6" height="24" fill="#92400e"/><circle cx="${x+3}" cy="56" r="16" fill="#4ade80"/>`;
+const SCH=x=>`<g transform="translate(${x} 0)"><rect y="40" width="60" height="45" fill="#fb923c"/><path d="M-4 40L30 18l34 22z" fill="#b45309"/><rect x="24" y="60" width="12" height="25" fill="#7c3a0c"/><rect x="6" y="50" width="12" height="10" fill="#fff"/><rect x="42" y="50" width="12" height="10" fill="#fff"/><path d="M30 18V6h12l-3 4 3 4H30" fill="#dc2626"/></g>`;
+const BB=(x,y,w,t)=>`<rect x="${x}" y="${y}" width="${w}" height="20" rx="8" fill="#fff" stroke="#14284b"/><text x="${x+w/2}" y="${y+14}" font-size="10" text-anchor="middle" fill="#14284b" font-family="Cairo,sans-serif" font-weight="700">${t}</text>`;
+const B="#2563eb",SCN=[
+()=>BG+TR(20)+K(100,48,B,{s:1.1,bag:1})+'<circle cx="150" cy="78" r="3" fill="#f43f5e"/><circle cx="165" cy="80" r="3" fill="#fbbf24"/>',
+()=>BG+SCH(125)+TR(8)+K(45,48,B,{bag:1})+K(82,42,"#e11d48",{sc:"#7c3aed",s:1.2}),
+()=>BG+'<rect x="128" y="28" width="46" height="57" fill="#7c3a0c" stroke="#451a03" stroke-width="3"/><circle cx="166" cy="58" r="2.5" fill="#ffd34d"/>'+K(95,48,B,{bag:1})+BB(40,12,96,"السلام عليكم"),
+()=>IN+'<rect x="98" y="14" width="84" height="36" rx="3" fill="#14532d" stroke="#92400e" stroke-width="3"/><text x="140" y="38" font-size="16" text-anchor="middle" fill="#fff" font-family="Cairo,sans-serif">أ ب ت</text>'+K(55,48,"#0d9488",{sc:"#f472b6",s:1.2})+K(165,60,B,{s:.8})+BB(6,4,92,"مرحباً يا آدم"),
+()=>IN+'<rect x="14" y="20" width="36" height="34" fill="#bae6fd" stroke="#92400e" stroke-width="3"/>'+K(100,34,B)+'<rect x="62" y="62" width="76" height="7" fill="#a16207"/><rect x="68" y="69" width="5" height="18" fill="#a16207"/><rect x="127" y="69" width="5" height="18" fill="#a16207"/><path d="M85 60l15-5 15 5v2l-15-4-15 4z" fill="#fff" stroke="#14284b"/><rect x="150" y="66" width="26" height="22" rx="5" fill="#f59e0b"/><path d="M150 70h26" stroke="#b45309" stroke-width="3"/>',
+()=>BG+K(55,48,B,{bag:1})+K(100,48,"#16a34a")+K(145,48,"#f97316")+'<circle cx="175" cy="80" r="6" fill="#fff" stroke="#14284b"/><text x="55" y="18" font-size="22" text-anchor="middle">😊</text><text x="100" y="18" font-size="22" text-anchor="middle">😄</text><text x="145" y="18" font-size="22" text-anchor="middle">😊</text>'
+];
+$("story").innerHTML=STORY.map((s,i)=>`<figure class="scene" id="sc${i}"><svg viewBox="0 0 200 120" role="img" aria-label="${s}">${SCN[i]()}</svg><figcaption class="cap"><span>${s}</span><button class="spk" data-say="${s}" aria-label="استمع إلى الجملة">🔊</button></figcaption></figure>`).join("");
+function mark(i){document.querySelectorAll(".scene").forEach((e,j)=>e.classList.toggle("on",j===i));}
+function playAll(){const id=++SEQ;const step=i=>{if(id!==SEQ)return;if(i>=STORY.length){mark(-1);return;}mark(i);$("sc"+i).scrollIntoView({block:"center"});speak(STORY[i],()=>setTimeout(()=>step(i+1),300));};step(0);}
+$("readAll").onclick=playAll;
+
+// Questions
+$("qs").innerHTML=QS.map(([q,a])=>`<div class="q"><div class="qh"><button class="qb" aria-expanded="false">${q}</button><button class="spk" data-say="${q}" aria-label="استمع إلى السؤال">🔊</button></div><div class="a">${a}<button class="spk" data-say="${a}" aria-label="استمع إلى الجواب">🔊</button></div></div>`).join("");
+document.querySelectorAll(".q").forEach(el=>{
+  const b=el.querySelector(".qb");
+  b.onclick=()=>{const o=el.classList.toggle("open");b.setAttribute("aria-expanded",o);};
+});
+
+// Words
+$("words").innerHTML=WORDS.map(([w,e])=>`<div class="card"><span class="e">${e}</span>${w}<div><button class="spk" data-say="${w}" aria-label="استمع إلى الكلمة">🔊</button><button class="spk" data-slow="${w}" aria-label="استمع ببطء">🐢</button></div></div>`).join("");
+document.querySelectorAll(".card").forEach((c,i)=>c.onclick=e=>{if(!e.target.closest("button"))speak(WORDS[i][0]);});
+
+// Model sentences
+$("model").innerHTML=MODEL.map(m=>`<span>${m}</span>`).join("");
+document.querySelectorAll("#model span").forEach((el,i)=>el.onclick=()=>speak(MODEL[i]));
+
+// Game
+let ok=0,total=0,cur=null,locked=false;
+function round(){
+  locked=false;
+  cur=WORDS[Math.floor(Math.random()*WORDS.length)];
+  const others=WORDS.filter(w=>w!==cur).sort(()=>Math.random()-.5).slice(0,2);
+  const choices=[cur,...others].sort(()=>Math.random()-.5);
+  $("pic").textContent=cur[1];
+  $("opts").innerHTML=choices.map(c=>`<button class="opt" data-w="${c[0]}">${c[0]}</button>`).join("");
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    if(locked)return;locked=true;total++;
+    const right=b.dataset.w===cur[0];
+    if(right){ok++;b.classList.add("ok");}
+    else{b.classList.add("bad");document.querySelectorAll(".opt").forEach(x=>{if(x.dataset.w===cur[0])x.classList.add("ok");});}
+    speak(cur[0]);
+    $("score").textContent=`النتيجة: ${ok} / ${total}`;
+    setTimeout(round,1400);
+  });
+}
+round();
+document.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+document.querySelectorAll("[data-slow]").forEach(b=>b.onclick=()=>speak(b.dataset.slow,null,.45));
+$("speed").onclick=e=>{RATE=RATE===.8?.5:.8;e.target.textContent=RATE===.8?"🔊 السرعة: عادية":"🐢 السرعة: بطيئة";};
+</script>
