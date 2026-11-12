@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>آدم في المدرسة</title>
@@ -51,7 +54,8 @@ button{font:inherit;cursor:pointer;color:inherit}
 .hd+.sub{margin-bottom:10px}
 .a .spk{width:32px;height:32px;margin-inline-start:6px;vertical-align:middle}
 </style>
-
+</head>
+<body>
 
 <main>
 <div id="cours-adam" dir="rtl" lang="ar">
@@ -88,15 +92,92 @@ const QS=[["من ذهب إلى المدرسة؟","ذهب آدم إلى المد�
 const WORDS=[["المدرسة","🏫"],["القسم","🪑"],["المعلمة","👩‍🏫"],["التلميذ","🧑‍🎓"],["الصديق","🧒"],["المحفظة","🎒"],["الكتاب","📖"],["القلم","✏️"]];
 const MODEL=["أنا تلميذ.","أنا في المدرسة."];
 
+// ============================================================
+// 🔴 AUDIO : un fichier MP3 par texte.
+// La clé doit être IDENTIQUE au texte du code (ponctuation, hamza...).
+// Dossier conseillé : un sous-dossier "audio/" à côté de ce fichier HTML.
+// ============================================================
+const AUD={
+  // ── Consignes (5 boutons 🔊 des titres) ──
+  "استمع ثم اقرأ الحكاية.":"audio/consigne1.mp3",
+  "أجيب شفهياً عن الأسئلة.":"audio/consigne2.mp3",
+  "أستمع إلى الكلمات ثم أكررها.":"audio/consigne3.mp3",
+  "أقرأ الجملة بصوت عال.":"audio/consigne4.mp3",
+  "أنظر إلى الصورة ثم أختار الكلمة المناسبة.":"audio/consigne5.mp3",
+
+  // ── Histoire (6 phrases de STORY) ──
+  "آدم تلميذ صغير.":"audio/histoire1.mp3",
+  "ذهب آدم إلى المدرسة مع أمه.":"audio/histoire2.mp3",
+  "دخل القسم وقال: السلام عليكم.":"audio/histoire3.mp3",
+  "ابتسمت المعلمة وقالت: مرحباً يا آدم.":"audio/histoire4.mp3",
+  "جلس آدم في مكانه، وفتح محفظته.":"audio/histoire5.mp3",
+  "كان سعيداً لأنه سيتعلم ويلعب مع أصدقائه.":"audio/histoire6.mp3",
+
+  // ── Questions (QS[i][0]) ──
+  "من ذهب إلى المدرسة؟":"audio/q1.mp3",
+  "مع من ذهب آدم؟":"audio/q2.mp3",
+  "ماذا قال آدم؟":"audio/q3.mp3",
+  "من استقبل آدم؟":"audio/q4.mp3",
+  "هل كان آدم سعيداً؟":"audio/q5.mp3",
+
+  // ── Réponses (QS[i][1]) ──
+  "ذهب آدم إلى المدرسة.":"audio/r1.mp3",
+  "ذهب آدم مع أمه.":"audio/r2.mp3",
+  "قال آدم: السلام عليكم.":"audio/r3.mp3",
+  "استقبلته المعلمة.":"audio/r4.mp3",
+  "نعم، كان آدم سعيداً.":"audio/r5.mp3",
+
+  // ── Mots (WORDS[i][0]) : cartes + jeu ──
+  "المدرسة":"audio/mot1.mp3","القسم":"audio/mot2.mp3",
+  "المعلمة":"audio/mot3.mp3","التلميذ":"audio/mot4.mp3",
+  "الصديق":"audio/mot5.mp3","المحفظة":"audio/mot6.mp3",
+  "الكتاب":"audio/mot7.mp3","القلم":"audio/mot8.mp3",
+
+  // ── Phrases modèles (MODEL) ──
+  "أنا تلميذ.":"audio/modele1.mp3",
+  "أنا في المدرسة.":"audio/modele2.mp3"
+};
+
+// 🔴 Version LENTE des 8 mots (bouton 🐢)
+const AUD_SLOW={
+  "المدرسة":"audio/mot1_lent.mp3","القسم":"audio/mot2_lent.mp3",
+  "المعلمة":"audio/mot3_lent.mp3","التلميذ":"audio/mot4_lent.mp3",
+  "الصديق":"audio/mot5_lent.mp3","المحفظة":"audio/mot6_lent.mp3",
+  "الكتاب":"audio/mot7_lent.mp3","القلم":"audio/mot8_lent.mp3"
+};
+
 let RATE=.8,SEQ=0;
-function speak(t,cb,r){
+let AUDIO=null; // 🔴 lecteur audio en cours
+
+// Ancienne voix de synthèse (utilisée en secours si le MP3 est absent ou ne charge pas)
+function tts(t,cb,r){
   try{
-    if(!cb){SEQ++;mark(-1);}
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(t);u.lang="ar-SA";u.rate=r||RATE;
     if(cb){u.onend=cb;u.onerror=cb;}
     speechSynthesis.speak(u);
-  }catch(e){}
+  }catch(e){if(cb)cb();}
+}
+
+// 🔴 speak : joue le MP3 si on le trouve, sinon la voix de synthèse
+// t = texte, cb = fonction à appeler à la fin, r = vitesse synthèse, slow = true pour version lente (🐢)
+function speak(t,cb,r,slow){
+  if(!cb){SEQ++;mark(-1);}
+  if(AUDIO){AUDIO.onended=null;AUDIO.onerror=null;AUDIO.pause();AUDIO=null;}
+  try{speechSynthesis.cancel();}catch(e){}
+
+  const src=(slow&&AUD_SLOW[t])||AUD[t];
+  if(!src){tts(t,cb,r);return;}
+
+  const a=new Audio(src);
+  AUDIO=a;
+  a.playbackRate=(RATE===.8?1:.75); // lié au bouton « السرعة »
+  let fini=false;
+  const fin=()=>{if(fini)return;fini=true;if(cb)cb();};
+  a.onended=fin;
+  // fichier introuvable ou illisible -> voix de synthèse
+  a.onerror=()=>{if(fini)return;fini=true;tts(t,cb,r);};
+  a.play().catch(()=>{if(fini)return;fini=true;tts(t,cb,r);});
 }
 const $=id=>document.getElementById(id);
 
@@ -117,6 +198,7 @@ const B="#2563eb",SCN=[
 ];
 $("story").innerHTML=STORY.map((s,i)=>`<figure class="scene" id="sc${i}"><svg viewBox="0 0 200 120" role="img" aria-label="${s}">${SCN[i]()}</svg><figcaption class="cap"><span>${s}</span><button class="spk" data-say="${s}" aria-label="استمع إلى الجملة">🔊</button></figcaption></figure>`).join("");
 function mark(i){document.querySelectorAll(".scene").forEach((e,j)=>e.classList.toggle("on",j===i));}
+// 🔴 playAll : lit les 6 phrases à la suite (utilise les audios histoire1..6)
 function playAll(){const id=++SEQ;const step=i=>{if(id!==SEQ)return;if(i>=STORY.length){mark(-1);return;}mark(i);$("sc"+i).scrollIntoView({block:"center"});speak(STORY[i],()=>setTimeout(()=>step(i+1),300));};step(0);}
 $("readAll").onclick=playAll;
 
@@ -149,13 +231,16 @@ function round(){
     const right=b.dataset.w===cur[0];
     if(right){ok++;b.classList.add("ok");}
     else{b.classList.add("bad");document.querySelectorAll(".opt").forEach(x=>{if(x.dataset.w===cur[0])x.classList.add("ok");});}
-    speak(cur[0]);
+    speak(cur[0]); // 🔴 réutilise les audios des mots (mot1..mot8)
     $("score").textContent=`النتيجة: ${ok} / ${total}`;
     setTimeout(round,1400);
   });
 }
 round();
 document.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
-document.querySelectorAll("[data-slow]").forEach(b=>b.onclick=()=>speak(b.dataset.slow,null,.45));
+// 🔴 bouton 🐢 : le 4e paramètre "true" demande la version lente (AUD_SLOW)
+document.querySelectorAll("[data-slow]").forEach(b=>b.onclick=()=>speak(b.dataset.slow,null,.45,true));
 $("speed").onclick=e=>{RATE=RATE===.8?.5:.8;e.target.textContent=RATE===.8?"🔊 السرعة: عادية":"🐢 السرعة: بطيئة";};
 </script>
+</body>
+</html>
